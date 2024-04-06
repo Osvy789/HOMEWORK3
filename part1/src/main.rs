@@ -122,7 +122,7 @@ fn main() {
         }
     });
 
-    for i in 0..4 { // i is the thread index
+    for i in 0..4 { 
         let list_clone = Arc::clone(&list);
         let tx = log_sender.clone();
         let handle = thread::spawn(move || {
@@ -135,20 +135,17 @@ fn main() {
                     1 => "Deleting",
                     _ => "Searching for",
                 };
-                // Include thread index (i + 1 for human-friendly numbering) in the log message
                 let log = format!("Thread {}: {} value: {}", i + 1, action_str, value);
                 tx.send(log).unwrap();
-            
-                // Ignoring return values to ensure match arms are compatible
                 match action {
                     0 => {
                         list_clone.insert(value);
                     },
                     1 => {
-                        let _ = list_clone.delete(value); // Explicitly ignore the return value
+                        let _ = list_clone.delete(value); 
                     },
                     _ => {
-                        let _ = list_clone.search(value); // Explicitly ignore the return value
+                        let _ = list_clone.search(value); 
                     },
                 }
             }
